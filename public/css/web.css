@@ -1,0 +1,118 @@
+:root {
+    --red: #e50914;
+}
+
+.bg-red {
+    background-color: var(--red);
+}
+.text-red {
+    color: var(--red);
+}
+
+.modal {
+    animation: move .4s ease-out;
+}
+
+@keyframes move {
+    from {top:0}
+    to {
+        top: 30%;
+    }
+}
+.page-item.active .page-link {
+    background-color: #333;
+    color: #fff!important;
+    border-color: #333!important;
+}
+
+.page-link {
+    background-color: #fff;
+    color: #333!important;
+}
+
+
+/* Login */
+
+.input-data {
+    position: relative;
+}
+
+.input-data input {
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #ccc;
+}
+
+
+.input-data label {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    pointer-events: none;
+    transition: all .3s ease;
+}
+
+.input-data input:not(:placeholder-shown) + label,
+.input-data input:focus + label {
+    top: 0;
+}
+
+#nav-logo {
+    z-index: 1;
+}
+
+.poster{
+    position: relative;
+    width: 100%;
+}
+
+.poster img {
+    width: 100%;
+    height: 100vh;
+}
+
+.bg {
+    background: rgba(0,0,0,.1);
+    background-image: linear-gradient(0deg,transparent 50%,rgba(0,0,0,.4)),radial-gradient(50% 100%,transparent 0,rgba(0,0,0,.4) 100%);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.form-login {
+    padding: 60px 68px;
+    width: 450px;
+    height: 450px;
+    background-color: rgba(0,0,0,0.75);
+}
+
+.login-input {
+    background-color: #333;
+    color: #fff;
+    border: none;
+}
+
+.login-input:focus {
+    background-color: #333;
+    outline: 1px solid #fff;
+}
+
+@media only screen and (max-width: 768px) {
+        .form-login {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .form-login {
+        width: 600px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .form-login {
+        width: 450px;
+    }
+}
