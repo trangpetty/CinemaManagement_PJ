@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use App\Models\Nhanvien;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Validator;
 
 class NhanvienController extends Controller
 {
-    public function index() {
-        // $nhanvien = Nhanvien::paginate(3);
-        // return view("nhanvien.index", compact('nhanvien'));
-        return view('nhanvien.index');
+    public function index(Request $request) {
+        $role = $request->session()->get('user_id');
+        return view('nhanvien.index', ['title' => 'Nhan vien', 'role' => $role]);
     }
 
-    public function getList() {
-        $nhanvien = Nhanvien::all();
+    public function getList(Request $request) {
+        $text = $request->text;
+        $filter = $request->filter;
+        $nhanvien = Nhanvien::orderBy(''.$text.'', ''.$filter.'')->get();
         return view("nhanvien.list", compact('nhanvien'));
     }
 
@@ -24,7 +28,7 @@ class NhanvienController extends Controller
         $nhanvien = Nhanvien::where('idnv', 'like', '%'.$request->text.'%')
         ->orwhere('ten', 'like', '%'.$request->text.'%')->orderBy('idnv', 'desc')->paginate(5);
         if($nhanvien->count() >= 1)
-            return response()->json(['data'=> $nhanvien]);
+            return view("nhanvien.list", compact('nhanvien'));
         else return response()->json(['status'=> "Nothing found"]);
     }
 
@@ -34,6 +38,20 @@ class NhanvienController extends Controller
         {
             $gioitinh= 0b1;
         }else $gioitinh = 0b0;
+
+        $validator = Validator::make($request->all(), [
+            'idnv' => ['required'],
+            'gioitinh' => ['required'],
+            'cccd' => ['required'],
+            'ngaybdlam' => ['required'],
+            'luong' => ['required'],
+            'chucvu' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()]);
+        }
+
         $nhanvien = Nhanvien::create([
             'idnv' => request('idnv'),
             'gioitinh' => $gioitinh,
@@ -58,14 +76,9 @@ class NhanvienController extends Controller
     }
 
     public function updateNhanvien(Request $request) {
-        $gioitinh;
         $idnv = request('idnv');
-        if (request('gioitinh_update') == 1)
-        {
-            $gioitinh= 0b1;
-        }else $gioitinh = 0b0;
         $nhanvien = Nhanvien::where('idnv', $idnv)->update([
-            'gioitinh' => $gioitinh,
+            'gioitinh' => request('gioitinh_update'),
             'ten' => request('ten_update'),
             'cccd' => request('cccd_update'),
             'ngaybdlam' => request('ngaybdlam_update'),
@@ -83,6 +96,14 @@ class NhanvienController extends Controller
 
     public function destroy(string $id) {
         $nhanvien = Nhanvien::where('idnv', $id)->delete();
+        return response()->json(['status'=> 'success']); // 200 là mã lỗi
+    }
+
+    public function deleteArr(Request $request) {
+        $arr = $request->arr;
+        for($i = 0; $i < count($arr); $i++){
+            $nhanvien = Nhanvien::where('idnv', $arr[$i])->delete();
+        }
         return response()->json(['status'=> 'success']); // 200 là mã lỗi
     }
 }

@@ -1,20 +1,26 @@
-<table class="w-100 border-bottom">
-    <thead class="bg-dark text-white">
-        <th>ID</th>
-        <th>Ten</th>
-        <th>Gioi tinh</th>
-        <th>Chuc vu</th>
+<style>
+    th {
+        cursor: pointer;
+    }
+</style>
+<table class="w-100 table-striped table" id="list">
+    <thead class="border-bottom bg-light">
         <th></th>
+        <th id="idnv-col">ID</th>
+        <th id="ten-col">Tên</th>
+        <th id="chucvu-col">Chức vụ</th>
+        <th id="luong-col">Lương</th>
+        <td class="d-flex flex-column"><i class="fa-solid fa-caret-up asc" style="cursor: pointer"></i><i class="fa-solid fa-caret-down desc" style="cursor: pointer"></i></td>
+        <th>Actions</th>
     </thead>
     @foreach ($nhanvien as $item)
     <tr>
+        <td><input type="checkbox" name="nv-{{ $item->idnv }}"></td>
         <td>{{ $item->idnv }}</td>
         <td>{{ $item->ten }}</td>
-        <td>@if ($item->gioitinh) Nam
-            @else Nu
-            @endif
-        </td>
         <td>{{ $item->chucvu }}</td>
+        <td>{{ $item->luong }}</td>
+        <td></td>
         <td>
             <button class="btn btn-info text-white btn-detail" data-url="{{ route('nhanvien.show', $item->idnv) }}" data-bs-target="#nhanvien-modal_detail" data-bs-toggle="modal"><i class="fa-solid fa-circle-info"></i></button>
             <button class="btn btn-dark text-white btn-edit" data-url="{{ route('nhanvien.show', $item->idnv) }}" data-bs-target="#nhanvien-modal_update" data-bs-toggle="modal"><i class="fa-regular fa-pen-to-square"></i></button>
@@ -25,27 +31,79 @@
         <div class="modal-dialog w-75">
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center">
-                    <h3 class="modal-title" id="exampleModallabel">Xoa nhan vien</h3>
+                    <h3 class="modal-title" id="exampleModallabel">Thông báo</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Ban co muon xoa thong tin nhan vien <span class="h4 fw-bold">{{ $item->idnv }}</span></p>
+                    <p>Bạn có muốn xóa thông tin nhân viên <span class="h4 fw-bold">{{ $item->idnv }}</span></p>
                 </div>
                 <div class="modal-footer">
-                    <button id ="btn-delete" class="btn btn-danger" data-url="{{ route('nhanvien.destroy', $item->idnv) }}">Delete</button>
-                    <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button id ="btn-delete" class="btn btn-danger" data-url="{{ route('nhanvien.destroy', $item->idnv) }}">Xóa</button>
+                    <button class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
     </div>
     @endforeach
 </table>
+
+<div class="modal fade" id="nhanvien-modal_delete" tabindex="-1" aria-labelledby="detail_modal" aria-hidden="true">
+    <div class="modal-dialog w-75">
+        <div class="modal-content">
+            <div class="modal-header d-flex align-items-center">
+                <h3 class="modal-title" id="exampleModallabel">Thông báo</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có muốn xóa thông tin các nhân viên này?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-delete_arr" class="btn btn-danger">Xóa</button>
+                <button class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    var text;
+    var arr = [];
+    function orderBy (text, filter) {
+        $.get("{{ route('getList') }}", {text: text, filter: filter}, function(data){
+                $('#nhanvien-table').empty().html(data);
+        })
+    }
+
+    $('th').click(function() {
+        text = $(this).attr('id').split('-')[0];
+        orderBy(text, 'desc');
+    })
+
+    $('.desc').click(function() {
+        orderBy(text, 'desc');
+    })
+
+    $('.asc').click(function() {
+        orderBy(text, 'asc');
+    })
+
+    $('input[type="checkbox"]').click(function() {
+        let id = $(this).attr('name').split('-')[1];
+        arr.push(id);
+    })
+
+    $('#btn-delete_arr').click(function() {
+        $.get("{{ route('deleteArr') }}", {arr: arr}, function(data) {
+            $('#nhanvien-modal_delete').modal('hide');
+            showData();
+        })
+    })
+
     function showData() {
-        $.get("{{ route('getList') }}", function(data){
+        $.get("{{ route('getList') }}", {text: 'idnv', filter: 'asc'}, function(data){
             $('#nhanvien-table').empty().html(data);
         })
     }
+
      $('.btn-detail').click(function() {
         var url = $(this).attr('data-url');
         $.ajax({
@@ -57,7 +115,7 @@
                 $('#ten_detail').text(response.data.ten)
                 if(response.data.gioitinh)
                     $('#gioitinh_detail').text('Nam')
-                else $('#gioitinh_detail').text('Nu')
+                else $('#gioitinh_detail').text('Nữ')
                 $('#scccdnv_detail').text(response.data.cccd)
                 $('#nbdl_detail').text(response.data.ngaybdlam)
                 $('#luongca_detail').text(response.data.luong)
@@ -114,6 +172,9 @@
             success: function(response) {
                 if(response.status == "success") {
                     $('#nhanvien-modal_update').modal('hide');
+                    $('#toast-text').text('Cập nhật thành công');
+                    const toastSucc = new bootstrap.Toast($('#toast-success'));
+                    toastSucc.show();
                     showData();
                 }
             }
@@ -132,12 +193,13 @@
             data: {},
             success: function(response) {
                 $('#nv-' + idnv).modal('hide');
+                $('#toast-text').text('Xóa thành công');
+                const toastSucc = new bootstrap.Toast($('#toast-success'));
+                toastSucc.show();
                 showData();
                 //$('#nhanvien-table').load(location.href + ' #nhanvien-table');
             }
         })
     })
+
 </script>
-{{-- <div class="d-flex justify-content-center mt-2">
-    {!! $nhanvien->links() !!}
-</div> --}}

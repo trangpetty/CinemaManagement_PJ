@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 22, 2023 lúc 05:42 AM
+-- Thời gian đã tạo: Th7 05, 2023 lúc 05:37 PM
 -- Phiên bản máy phục vụ: 10.4.24-MariaDB
--- Phiên bản PHP: 7.4.29
+-- Phiên bản PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -21,520 +21,148 @@ SET time_zone = "+00:00";
 -- Cơ sở dữ liệu: `cinema`
 --
 
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `account`
---
-
-CREATE TABLE `account` (
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `role` bit(1) NOT NULL DEFAULT b'0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Đang đổ dữ liệu cho bảng `account`
---
-
-INSERT INTO `account` (`username`, `password`, `role`) VALUES
-('admin', '1234567', b'1');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cthdnhap`
+-- Đang đổ dữ liệu cho bảng `doanuong`
 --
 
-CREATE TABLE `cthdnhap` (
-  `idhd` char(25) NOT NULL,
-  `iddoanuong` char(25) NOT NULL,
-  `soluong` int(11) NOT NULL,
-  `dongia` float NOT NULL
-) ;
+INSERT INTO `doanuong` (`iddoanuong`, `ten`, `hsd`, `phanloai`, `gia`, `soluong`, `created_at`, `updated_at`) VALUES
+('TP01', 'Cocacola', '2025-06-29', 'douong', 10000.00, 115, '2023-06-28 22:59:28', '2023-07-05 08:26:36'),
+('TP02', 'Pepsi', '2025-06-30', 'douong', 20000.00, 52, '2023-07-02 10:38:56', '2023-07-04 05:25:13'),
+('TP03', 'Popcorn', '2023-07-15', 'doan', 30000.00, 74, '2023-07-02 10:35:27', '2023-07-05 08:29:34'),
+('TP04', 'Chips', '2023-07-21', 'doan', 30000.00, 144, '2023-07-05 04:56:27', '2023-07-05 08:26:14');
+
 
 -- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `cthdxuat`
---
-
-CREATE TABLE `cthdxuat` (
-  `idhd` char(25) NOT NULL,
-  `iddoanuong` char(25) NOT NULL,
-  `soluong` int(11) NOT NULL,
-  `dongia` float NOT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `doanuong`
---
-
-CREATE TABLE `doanuong` (
-  `iddo` char(25) NOT NULL,
-  `ten` varchar(255) DEFAULT NULL,
-  `hsd` date DEFAULT NULL,
-  `phanloai` char(25) NOT NULL,
-  `gia` float NOT NULL,
-  `soluong` int(11) NOT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `ghe`
---
-
-CREATE TABLE `ghe` (
-  `idghe` char(25) NOT NULL,
-  `idphong` char(25) NOT NULL,
-  `loaighe` char(25) NOT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `hdnhap`
---
-
-CREATE TABLE `hdnhap` (
-  `idhd` char(25) NOT NULL,
-  `idnhanvien` char(25) DEFAULT NULL,
-  `ngaylaphd` date DEFAULT curdate(),
-  `giolaphd` time DEFAULT curtime(),
-  `chuthich` varchar(255) DEFAULT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `hdxuat`
---
-
-CREATE TABLE `hdxuat` (
-  `idhd` char(25) NOT NULL,
-  `idnhanvien` char(25) DEFAULT NULL,
-  `makh` char(10) DEFAULT NULL,
-  `giamgia` float DEFAULT NULL,
-  `ngaylaphd` date DEFAULT curdate(),
-  `giolaphd` time DEFAULT curtime(),
-  `chuthich` varchar(255) DEFAULT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `hoivien`
---
-
-CREATE TABLE `hoivien` (
-  `sothe` char(10) NOT NULL,
-  `tenhv` varchar(255) NOT NULL,
-  `ngaysinh` date NOT NULL,
-  `diachi` varchar(255) DEFAULT NULL,
-  `dienthoai` char(15) DEFAULT NULL,
-  `socccd` char(15) DEFAULT NULL,
-  `diemtl` int(11) DEFAULT NULL,
-  `loaihv` char(10) DEFAULT NULL
-) ;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `migrations`
---
-
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `nhanvien`
---
-
-CREATE TABLE `nhanvien` (
-  `idnv` varchar(255) NOT NULL,
-  `ten` varchar(255) DEFAULT NULL,
-  `gioitinh` bit(1) NOT NULL,
-  `cccd` varchar(255) NOT NULL,
-  `ngaybdlam` date NOT NULL DEFAULT curdate(),
-  `luong` float DEFAULT NULL CHECK (`luong` >= 0),
-  `thuong` float DEFAULT NULL,
-  `chucvu` varchar(255) NOT NULL
-) ;
 
 --
 -- Đang đổ dữ liệu cho bảng `nhanvien`
 --
 
-INSERT INTO `nhanvien` (`idnv`, `ten`, `gioitinh`, `cccd`, `ngaybdlam`, `luong`, `thuong`, `chucvu`) VALUES
-('NV01', 'DINH TRUONG LUAN', b'1', '0123456789', '2023-05-04', 20000, 2000, 'Boi ban'),
-('NV02', 'NGUYEN DINH TUNG', b'1', '2237551375', '2023-05-09', 25000, 1000, 'Thu ngan'),
-('NV03', 'MAC VAN HIEU', b'1', '99245315', '2023-05-05', 30000, 5000, 'Boi ban'),
-('NV04', 'NGUY DINH ANH TUAN', b'1', '1123456789', '2023-05-04', 20000, 2000, 'Thu ngan'),
-('NV05', 'LE THI THUY TRANG', b'0', '033301005121', '2023-05-02', 25000, 30000, 'Boi ban');
+INSERT INTO `nhanvien` (`idnv`, `ten`, `gioitinh`, `cccd`, `ngaybdlam`, `luong`, `thuong`, `chucvu`, `created_at`, `updated_at`) VALUES
+('NV06', 'Trang', 0, '1123456789', '2023-06-29', 20000.00, 2000.00, 'Thu ngan', NULL, NULL),
+('NV14', 'Hiếu', 1, '333344445555', '2023-06-14', 20000.00, 10000.00, 'Thu ngan', NULL, NULL),
+('NV16', 'Tùng', 0, '666677778888', '2023-06-27', 20000.00, 2000.00, 'Lao cong', NULL, NULL),
+('NV29', 'Luân', 1, '000011112222', '2023-06-26', 25000.00, 30000.00, 'Quan ly', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `password_resets`
+-- Đang đổ dữ liệu cho bảng `hdnhap`
 --
 
-CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `hdnhap` (`idhdnhap`, `idnv`, `ngaylaphd`, `giolaphd`, `chuthich`, `created_at`, `updated_at`) VALUES
+(1, 'NV06', '2023-06-21', '14:26:18', NULL, '2023-07-05 08:22:33', '2023-07-05 08:22:33'),
+(2, 'NV06', '2023-07-05', '14:26:18', NULL, '2023-07-05 08:23:37', '2023-07-05 08:23:37'),
+(3, 'NV06', '2023-05-17', '14:26:18', NULL, '2023-07-05 08:25:28', '2023-07-05 08:25:28'),
+(4, 'NV06', '2023-03-02', '14:26:18', NULL, '2023-07-05 08:26:14', '2023-07-05 08:26:14'),
+(5, 'NV06', '2023-02-21', '14:26:18', NULL, '2023-07-05 08:26:35', '2023-07-05 08:26:35'),
+(6, 'NV06', '2023-04-01', '14:26:18', NULL, '2023-07-05 08:29:34', '2023-07-05 08:29:34');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phim`
+-- Đang đổ dữ liệu cho bảng `cthdnhap`
 --
 
-CREATE TABLE `phim` (
-  `idphim` char(25) NOT NULL,
-  `ten` varchar(255) DEFAULT NULL,
-  `thoiluong` time DEFAULT NULL,
-  `theloai` varchar(255) DEFAULT NULL,
-  `daodien` varchar(255) DEFAULT NULL,
-  `dienvienchinh` varchar(255) DEFAULT NULL,
-  `sovekhadung` int(11) NOT NULL DEFAULT 0
-) ;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `phong`
---
-
-CREATE TABLE `phong` (
-  `idphong` char(25) NOT NULL,
-  `soluongghe` int(11) NOT NULL,
-  `amthanh` char(10) NOT NULL DEFAULT 'Loai C',
-  `maychieu` char(10) NOT NULL DEFAULT 'Loai C',
-  `tinhtrang` char(25) NOT NULL DEFAULT 'kha'
-) ;
+INSERT INTO `cthdnhap` (`id`, `idhdnhap`, `iddoanuong`, `soluong`, `dongia`, `created_at`, `updated_at`) VALUES
+(1, 1, 'TP03', 5, 105000.00, '2023-07-05 08:22:34', '2023-07-05 08:22:34'),
+(2, 1, 'TP02', 10, 140000.00, '2023-07-05 08:22:34', '2023-07-05 08:22:34'),
+(3, 2, 'TP03', 5, 105000.00, '2023-07-05 08:23:38', '2023-07-05 08:23:38'),
+(4, 2, 'TP04', 3, 63000.00, '2023-07-05 08:23:38', '2023-07-05 08:23:38'),
+(5, 3, 'TP03', 3, 63000.00, '2023-07-05 08:25:29', '2023-07-05 08:25:29'),
+(6, 3, 'TP04', 6, 126000.00, '2023-07-05 08:25:29', '2023-07-05 08:25:29'),
+(7, 4, 'TP04', 7, 147000.00, '2023-07-05 08:26:14', '2023-07-05 08:26:14'),
+(8, 4, 'TP03', 33, 693000.00, '2023-07-05 08:26:14', '2023-07-05 08:26:14'),
+(9, 4, 'TP01', 4, 28000.00, '2023-07-05 08:26:14', '2023-07-05 08:26:14'),
+(10, 5, 'TP01', 4, 28000.00, '2023-07-05 08:26:35', '2023-07-05 08:26:35'),
+(11, 5, 'TP02', 4, 56000.00, '2023-07-05 08:26:35', '2023-07-05 08:26:35'),
+(12, 5, 'TP04', 7, 147000.00, '2023-07-05 08:26:35', '2023-07-05 08:26:35'),
+(13, 6, 'TP03', 4, 84000.00, '2023-07-05 08:29:34', '2023-07-05 08:29:34'),
+(14, 6, 'TP04', 5, 105000.00, '2023-07-05 08:29:34', '2023-07-05 08:29:34'),
+(15, 6, 'TP01', 8, 56000.00, '2023-07-05 08:29:34', '2023-07-05 08:29:34'),
+(16, 6, 'TP02', 4, 56000.00, '2023-07-05 08:29:34', '2023-07-05 08:29:34'),
+(17, 6, 'TP02', 3, 42000.00, '2023-07-05 08:29:34', '2023-07-05 08:29:34');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `sochamcong`
+-- Đang đổ dữ liệu cho bảng `phong`
 --
 
-CREATE TABLE `sochamcong` (
-  `idnhanvien` char(25) NOT NULL,
-  `ngaydilam` date NOT NULL,
-  `calam` char(1) NOT NULL
-) ;
+INSERT INTO `phong` (`idphong`, `soluongghe`, `amthanh`, `maychieu`, `tinhtrang`, `created_at`, `updated_at`) VALUES
+('P01', 20, 'Loai A', 'Loai A', 'tot', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `suatchieu`
+-- Đang đổ dữ liệu cho bảng `ghe`
 --
 
-CREATE TABLE `suatchieu` (
-  `idsuatchieu` char(25) NOT NULL,
-  `thoigianbd` time DEFAULT NULL,
-  `idphim` char(25) NOT NULL,
-  `idphong` char(25) NOT NULL,
-  `loaichieu` char(25) NOT NULL DEFAULT '2D'
-) ;
+INSERT INTO `ghe` (`idghe`, `idphong`, `vitri`, `loaighe`, `trangthai`, `created_at`, `updated_at`) VALUES
+('G01', 'P01', 'A1', 'vip', 'tot', NULL, '2023-07-05 04:58:55'),
+('G02', 'P01', 'A2', 'VIP', 'tot', NULL, NULL);
+
+
+-- --------------------------------------------------------
+
+
+--
+-- Đang đổ dữ liệu cho bảng `hoivien`
+--
+
+INSERT INTO `hoivien` (`sothe`, `tenhv`, `ngaysinh`, `diachi`, `dienthoai`, `socccd`, `loaihv`, `diemtl`, `created_at`, `updated_at`) VALUES
+('0011', '0011', '2023-06-26', '0011', '0011', '0011', 'VIP1', 0, '2023-07-05 07:57:20', '2023-07-05 07:57:20'),
+('HV01', 'TRANG', '2001-07-22', 'HUNG YEN', '0358080953', '033301005121', 'VIP1', 0, '2023-07-02 04:36:07', '2023-07-02 04:53:16'),
+('HV02', 'NGUYEN VAN A', '2001-01-01', 'HA NOI', '1276387126', '17631783683', 'VIP1', 0, '2023-07-02 05:12:11', '2023-07-02 05:12:11');
+
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Đang đổ dữ liệu cho bảng `phim`
 --
 
-CREATE TABLE `users` (
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `role` bit(1) NOT NULL DEFAULT b'0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `phim` (`idphim`, `ten`, `thoiluong`, `theloai`, `daodien`, `dienvienchinh`, `sovekhadung`, `created_at`, `updated_at`) VALUES
+('P01', 'Avenger', 120, 'Trinh tham', 'trang', 'trang', 100, NULL, NULL),
+('P02', 'Avenger 2', 100, 'Trinh tham', 'trang', 'trang', 100, NULL, NULL);
 
---
--- Đang đổ dữ liệu cho bảng `users`
---
 
-INSERT INTO `users` (`username`, `password`, `role`) VALUES
-('admin', '1234567', b'1');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ve`
+-- Đang đổ dữ liệu cho bảng `sochamcong`
 --
 
-CREATE TABLE `ve` (
-  `idve` char(25) NOT NULL,
-  `makh` char(10) DEFAULT NULL,
-  `idghe` char(25) NOT NULL,
-  `idsuatchieu` char(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `sochamcong` (`idnv`, `ngaydilam`, `calam`, `created_at`, `updated_at`) VALUES
+('NV06', '2023-07-04', 'S', NULL, NULL),
+('NV29', '2023-06-22', 'C', NULL, NULL),
+('NV14', '2023-07-03', 'T', NULL, NULL),
+('NV06', '2023-05-16', 'S', NULL, NULL),
+('NV16', '2023-04-04', 'T', NULL, NULL);
+
+-- --------------------------------------------------------
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Đang đổ dữ liệu cho bảng `suatchieu`
 --
 
---
--- Chỉ mục cho bảng `account`
---
-ALTER TABLE `account`
-  ADD PRIMARY KEY (`username`);
+INSERT INTO `suatchieu` (`idsuatchieu`, `thoigianbd`, `idphim`, `idphong`, `loaichieu`, `created_at`, `updated_at`) VALUES
+('SC01', '00:45:00', 'P02', 'P01', '3D', '2023-07-02 10:46:03', '2023-07-02 10:46:35');
+
+-- --------------------------------------------------------
 
 --
--- Chỉ mục cho bảng `cthdnhap`
---
-ALTER TABLE `cthdnhap`
-  ADD KEY `idhd` (`idhd`),
-  ADD KEY `iddoanuong` (`iddoanuong`);
-
---
--- Chỉ mục cho bảng `cthdxuat`
---
-ALTER TABLE `cthdxuat`
-  ADD KEY `idhd` (`idhd`),
-  ADD KEY `iddoanuong` (`iddoanuong`);
-
---
--- Chỉ mục cho bảng `doanuong`
---
-ALTER TABLE `doanuong`
-  ADD PRIMARY KEY (`iddo`);
-
---
--- Chỉ mục cho bảng `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Chỉ mục cho bảng `ghe`
---
-ALTER TABLE `ghe`
-  ADD PRIMARY KEY (`idghe`),
-  ADD KEY `idphong` (`idphong`);
-
---
--- Chỉ mục cho bảng `hdnhap`
---
-ALTER TABLE `hdnhap`
-  ADD PRIMARY KEY (`idhd`),
-  ADD KEY `idnhanvien` (`idnhanvien`);
-
---
--- Chỉ mục cho bảng `hdxuat`
---
-ALTER TABLE `hdxuat`
-  ADD PRIMARY KEY (`idhd`),
-  ADD KEY `idnhanvien` (`idnhanvien`),
-  ADD KEY `makh` (`makh`);
-
---
--- Chỉ mục cho bảng `hoivien`
---
-ALTER TABLE `hoivien`
-  ADD PRIMARY KEY (`sothe`);
-
---
--- Chỉ mục cho bảng `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Chỉ mục cho bảng `nhanvien`
---
-ALTER TABLE `nhanvien`
-  ADD PRIMARY KEY (`idnv`);
-
---
--- Chỉ mục cho bảng `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
-
---
--- Chỉ mục cho bảng `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
-
---
--- Chỉ mục cho bảng `phim`
---
-ALTER TABLE `phim`
-  ADD PRIMARY KEY (`idphim`);
-
---
--- Chỉ mục cho bảng `phong`
---
-ALTER TABLE `phong`
-  ADD PRIMARY KEY (`idphong`);
-
---
--- Chỉ mục cho bảng `sochamcong`
---
-ALTER TABLE `sochamcong`
-  ADD PRIMARY KEY (`idnhanvien`,`ngaydilam`,`calam`);
-
---
--- Chỉ mục cho bảng `suatchieu`
---
-ALTER TABLE `suatchieu`
-  ADD PRIMARY KEY (`idsuatchieu`),
-  ADD KEY `idphim` (`idphim`),
-  ADD KEY `idphong` (`idphong`);
-
---
--- Chỉ mục cho bảng `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`username`);
-
---
--- Chỉ mục cho bảng `ve`
---
-ALTER TABLE `ve`
-  ADD PRIMARY KEY (`idve`),
-  ADD KEY `idghe` (`idghe`),
-  ADD KEY `idsuatchieu` (`idsuatchieu`),
-  ADD KEY `makh` (`makh`);
-
---
--- AUTO_INCREMENT cho các bảng đã đổ
+-- Đang đổ dữ liệu cho bảng `ve`
 --
 
---
--- AUTO_INCREMENT cho bảng `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+INSERT INTO `ve` (`idve`, `sothe`, `idghe`, `idsuatchieu`, `created_at`, `updated_at`) VALUES
+('01', 'HV01', 'G01', 'SC01', NULL, NULL);
 
---
--- AUTO_INCREMENT cho bảng `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT cho bảng `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Các ràng buộc cho các bảng đã đổ
---
-
---
--- Các ràng buộc cho bảng `cthdnhap`
---
-ALTER TABLE `cthdnhap`
-  ADD CONSTRAINT `cthdnhap_ibfk_1` FOREIGN KEY (`idhd`) REFERENCES `hdnhap` (`idhd`),
-  ADD CONSTRAINT `cthdnhap_ibfk_2` FOREIGN KEY (`iddoanuong`) REFERENCES `doanuong` (`iddo`);
-
---
--- Các ràng buộc cho bảng `cthdxuat`
---
-ALTER TABLE `cthdxuat`
-  ADD CONSTRAINT `cthdxuat_ibfk_1` FOREIGN KEY (`idhd`) REFERENCES `hdxuat` (`idhd`),
-  ADD CONSTRAINT `cthdxuat_ibfk_2` FOREIGN KEY (`iddoanuong`) REFERENCES `doanuong` (`iddo`);
-
---
--- Các ràng buộc cho bảng `ghe`
---
-ALTER TABLE `ghe`
-  ADD CONSTRAINT `ghe_ibfk_1` FOREIGN KEY (`idphong`) REFERENCES `phong` (`idphong`);
-
---
--- Các ràng buộc cho bảng `hdnhap`
---
-ALTER TABLE `hdnhap`
-  ADD CONSTRAINT `hdnhap_ibfk_1` FOREIGN KEY (`idnhanvien`) REFERENCES `nhanvien` (`idnv`);
-
---
--- Các ràng buộc cho bảng `hdxuat`
---
-ALTER TABLE `hdxuat`
-  ADD CONSTRAINT `hdxuat_ibfk_1` FOREIGN KEY (`idnhanvien`) REFERENCES `nhanvien` (`idnv`),
-  ADD CONSTRAINT `hdxuat_ibfk_2` FOREIGN KEY (`makh`) REFERENCES `hoivien` (`sothe`);
-
---
--- Các ràng buộc cho bảng `sochamcong`
---
-ALTER TABLE `sochamcong`
-  ADD CONSTRAINT `sochamcong_ibfk_1` FOREIGN KEY (`idnhanvien`) REFERENCES `nhanvien` (`idnv`);
-
---
--- Các ràng buộc cho bảng `suatchieu`
---
-ALTER TABLE `suatchieu`
-  ADD CONSTRAINT `suatchieu_ibfk_1` FOREIGN KEY (`idphim`) REFERENCES `phim` (`idphim`),
-  ADD CONSTRAINT `suatchieu_ibfk_2` FOREIGN KEY (`idphong`) REFERENCES `phong` (`idphong`);
-
---
--- Các ràng buộc cho bảng `ve`
---
-ALTER TABLE `ve`
-  ADD CONSTRAINT `ve_ibfk_1` FOREIGN KEY (`idghe`) REFERENCES `ghe` (`idghe`),
-  ADD CONSTRAINT `ve_ibfk_2` FOREIGN KEY (`idsuatchieu`) REFERENCES `suatchieu` (`idsuatchieu`),
-  ADD CONSTRAINT `ve_ibfk_3` FOREIGN KEY (`makh`) REFERENCES `hoivien` (`sothe`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

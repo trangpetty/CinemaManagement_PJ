@@ -19,6 +19,25 @@
         top: 30%;
     }
 }
+
+.bg {
+    background:linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+    position: fixed;
+}
+
+.spinner-1 {
+    z-index: 1;
+    position: absolute;
+    top: 40%;
+    left: 48%;
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: transparent #e50914;
+    animation: s1 1s infinite;
+  }
+  @keyframes s1 {to{transform: rotate(.5turn)}}
 .page-item.active .page-link {
     background-color: #333;
     color: #fff!important;
@@ -28,6 +47,21 @@
 .page-link {
     background-color: #fff;
     color: #333!important;
+}
+
+.link-contact {
+    transition: all .3s ease;
+}
+
+.link-contact:hover {
+    transform: scale(1.5);
+}
+
+.toast-fade {
+    transition: opacity 0.3s linear !important;
+}
+.toast {
+    z-index: 10000;
 }
 
 
@@ -115,4 +149,43 @@
     .form-login {
         width: 450px;
     }
+}
+
+@media screen and (min-width:576px) {
+    .carousel-inner {
+        display: flex;
+    }
+    .carousel-item {
+        display: block;
+        margin-right: 0;
+        flex: 0 0 calc(100%/4);
+    }
+}
+.card{
+    margin: 0 0.5em;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover{
+    background-color: #ccc;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+}
+
+.nav-phanloai {
+    color: #333;
+}
+
+.nav-phanloai:hover {
+    color: #333;
+    cursor: pointer;
+}
+
+.nav-phanloai.active {
+    background-color: #333;
+    color: #fff;
 }
